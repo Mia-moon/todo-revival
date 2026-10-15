@@ -118,6 +118,8 @@ def build_parser():
     #list 参数为-a --all
     p_list=sub.add_parser("list",help="显示代办")
     p_list.add_argument("-a","--all",action="store_true",help="显示全部")
+    #action="store_true" 是 argparse 中用来定义一个布尔开关（flag） 的标准方式。让参数变成布尔类型。
+    #它表示这个参数是一个“开关”，用户带上它，值就是 True；不带，值就是 False。
 
     #done 参数为ids
     p_done=sub.add_parser("done",help="完成代办")
@@ -151,9 +153,11 @@ def get_todo_file(args):
 
 # 定义函数main()，存放主要逻辑
 def main():
-   global todo_file #global声明操作的是全局变量，而非又新建的局部变量.
-   parser=build_parser()
-   args=parser.parse_args()
+    #因为python允许不同函数存在相同变量名称。这里需要赋值，因此global声明表示操作的是全局变量，而非又新建的局部变量.
+    #如果只是读取，则不用global声明，函数查不到局部会去全局变量查询。
+   global todo_file
+   parser=build_parser()  #构造解析器，定义规则
+   args=parser.parse_args() #识别命令行，获取命令行的数据
    todo_file=get_todo_file(args) #文件指向用户又更改的
    
 
